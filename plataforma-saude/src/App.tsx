@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ProvedorApp } from './contexto';
 import Layout from './Layout';
 import ModalAgendamento from './Agendamento';
+import ModalAgendamentoExame from './AgendamentoExame';
+import ModalNotificacoes from './Notificacoes';
 import Inicio from './paginas/Inicio';
 import Consultas from './paginas/Consultas';
 import Exames from './paginas/Exames';
@@ -22,6 +24,8 @@ export default function App() {
         </Route>
       </Routes>
       <ModalAgendamento />
+      <ModalAgendamentoExame />
+      <ModalNotificacoes />
     </ProvedorApp>
   );
 }

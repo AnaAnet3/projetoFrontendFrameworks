@@ -1,6 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import {
+  buscar, catalogoExames, dataExtensa, notificacoesIniciais, servicos, unidades, Notificacao,
+} from './dados';
+import { CalendarCheck, FlaskConical } from 'lucide-react';
 
 export interface Consulta { id: number; data: string; hora: string; servicoId: string; unidadeId: string }
+export interface ExameAgendado { id: number; exameId: string; data: string; hora: string; unidadeId: string }
 
 interface Valor {
   consultas: Consulta[];
@@ -9,6 +14,20 @@ interface Valor {
   abrirAgendamento: (servicoId?: string) => void;
   fecharAgendamento: () => void;
   adicionarConsulta: (consulta: Omit<Consulta, 'id'>) => void;
+
+  exames: ExameAgendado[];
+  agendamentoExameAberto: boolean;
+  abrirAgendamentoExame: () => void;
+  fecharAgendamentoExame: () => void;
+  adicionarExame: (exame: Omit<ExameAgendado, 'id'>) => void;
+
+  notificacoes: Notificacao[];
+  naoLidas: number;
+  notificacoesAberto: boolean;
+  abrirNotificacoes: () => void;
+  fecharNotificacoes: () => void;
+  marcarComoLida: (id: number) => void;
+  marcarTodasComoLidas: () => void;
 }
 
 const Contexto = createContext<Valor>(null!);
@@ -21,6 +40,16 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
   const [agendamentoAberto, setAgendamentoAberto] = useState(false);
   const [servicoInicial, setServicoInicial] = useState<string | null>(null);
 
+  const [exames, setExames] = useState<ExameAgendado[]>([]);
+  const [agendamentoExameAberto, setAgendamentoExameAberto] = useState(false);
+
+  const [notificacoes, setNotificacoes] = useState<Notificacao[]>(notificacoesIniciais);
+  const [notificacoesAberto, setNotificacoesAberto] = useState(false);
+
+  // A notificação mais recente fica no topo. O id usa a hora atual, como nas consultas.
+  const novaNotificacao = (dados: Pick<Notificacao, 'titulo' | 'texto' | 'rota' | 'icone' | 'tom'>) =>
+    setNotificacoes((atuais) => [{ ...dados, id: Date.now(), tempo: 'Agora', lida: false }, ...atuais]);
+
   return (
     <Contexto.Provider
       value={{
@@ -29,7 +58,35 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
         servicoInicial,
         abrirAgendamento: (servicoId) => { setServicoInicial(servicoId ?? null); setAgendamentoAberto(true); },
         fecharAgendamento: () => setAgendamentoAberto(false),
-        adicionarConsulta: (consulta) => setConsultas((atuais) => [{ ...consulta, id: Date.now() }, ...atuais]),
+        adicionarConsulta: (consulta) => {
+          setConsultas((atuais) => [{ ...consulta, id: Date.now() }, ...atuais]);
+          novaNotificacao({
+            titulo: 'Consulta agendada',
+            texto: `${buscar(servicos, consulta.servicoId).nome} em ${buscar(unidades, consulta.unidadeId).nome}, ${dataExtensa(consulta.data)} às ${consulta.hora}.`,
+            rota: '/consultas', icone: CalendarCheck, tom: 'turquesa',
+          });
+        },
+
+        exames,
+        agendamentoExameAberto,
+        abrirAgendamentoExame: () => setAgendamentoExameAberto(true),
+        fecharAgendamentoExame: () => setAgendamentoExameAberto(false),
+        adicionarExame: (exame) => {
+          setExames((atuais) => [{ ...exame, id: Date.now() }, ...atuais]);
+          novaNotificacao({
+            titulo: 'Exame agendado',
+            texto: `${buscar(catalogoExames, exame.exameId).nome} em ${buscar(unidades, exame.unidadeId).nome}, ${dataExtensa(exame.data)} às ${exame.hora}.`,
+            rota: '/exames', icone: FlaskConical, tom: 'azul',
+          });
+        },
+
+        notificacoes,
+        naoLidas: notificacoes.filter((n) => !n.lida).length,
+        notificacoesAberto,
+        abrirNotificacoes: () => setNotificacoesAberto(true),
+        fecharNotificacoes: () => setNotificacoesAberto(false),
+        marcarComoLida: (id) => setNotificacoes((atuais) => atuais.map((n) => (n.id === id ? { ...n, lida: true } : n))),
+        marcarTodasComoLidas: () => setNotificacoes((atuais) => atuais.map((n) => ({ ...n, lida: true }))),
       }}
     >
       {children}

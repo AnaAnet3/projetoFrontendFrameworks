@@ -1,13 +1,13 @@
 import { useEffect, useRef, ReactNode } from 'react';
-import { Clock, MapPin, MoreHorizontal } from 'lucide-react';
+import { Check, Clock, MapPin, MoreHorizontal } from 'lucide-react';
 import { Consulta } from './contexto';
-import { buscar, dia, medico, mesCurto, servicos, unidades } from './dados';
+import { buscar, dia, distancia, medico, mesCurto, semanaCurta, servicos, unidades } from './dados';
 
 const FOCAVEIS = 'button:not([disabled]), input:not([disabled])';
 
-interface ModalProps { aberto: boolean; aoFechar: () => void; tituloId: string; pequeno?: boolean; children: ReactNode }
+interface ModalProps { aberto: boolean; aoFechar: () => void; tituloId: string; pequeno?: boolean; medio?: boolean; children: ReactNode }
 
-export function Modal({ aberto, aoFechar, tituloId, pequeno, children }: ModalProps) {
+export function Modal({ aberto, aoFechar, tituloId, pequeno, medio, children }: ModalProps) {
   const caixa = useRef<HTMLDivElement>(null);
   const fechar = useRef(aoFechar);
   fechar.current = aoFechar;
@@ -49,7 +49,7 @@ export function Modal({ aberto, aoFechar, tituloId, pequeno, children }: ModalPr
         aria-modal="true"
         aria-labelledby={tituloId}
         tabIndex={-1}
-        className={`modal ${pequeno ? 'modal-pequeno' : ''}`}
+        className={`modal ${pequeno ? 'modal-pequeno' : ''} ${medio ? 'modal-medio' : ''}`}
         onMouseDown={(e) => e.stopPropagation()}
       >
         {children}
@@ -70,6 +70,64 @@ export function Abas({ abas, valor, aoMudar }: AbasProps) {
         </button>
       ))}
     </div>
+  );
+}
+
+// Indicador de passos dos modais de agendamento (consulta e exame).
+export function Passos({ nomes, passo }: { nomes: string[]; passo: number }) {
+  return (
+    <ol className="passos">
+      {nomes.map((nome, i) => (
+        <li key={nome} className={i + 1 < passo ? 'feito' : i + 1 === passo ? 'atual' : ''}>
+          <span className="passo-ponto">{i + 1 < passo ? <Check /> : i + 1}</span>
+          <span className="passo-nome">{nome}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+interface SeletorUnidadeProps { valor: string; aoMudar: (id: string) => void; legenda?: string }
+
+export function SeletorUnidade({ valor, aoMudar, legenda = 'Próximos horários hoje' }: SeletorUnidadeProps) {
+  return (
+    <div className="pilha">
+      {unidades.map((unidade) => (
+        <button key={unidade.id} aria-pressed={unidade.id === valor} className={`opcao radio ${unidade.id === valor ? 'selecionado' : ''}`} onClick={() => aoMudar(unidade.id)}>
+          <span className="opcao-bolinha" />
+          <span>
+            <strong>{unidade.nome}</strong>
+            <small><MapPin /> {distancia(unidade.distanciaKm)} • {legenda}</small>
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+interface SeletorDataHoraProps {
+  datas: string[]; horarios: string[]; data: string; hora: string; aoMudar: (parte: { data?: string; hora?: string }) => void;
+}
+
+export function SeletorDataHora({ datas, horarios, data, hora, aoMudar }: SeletorDataHoraProps) {
+  return (
+    <>
+      <div className="dias">
+        {datas.map((d) => (
+          <button key={d} aria-pressed={d === data} className={d === data ? 'selecionado' : ''} onClick={() => aoMudar({ data: d })}>
+            <small>{semanaCurta(d)}</small>
+            <strong>{dia(d)}</strong>
+          </button>
+        ))}
+      </div>
+
+      <p className="rotulo-campo">Horários disponíveis</p>
+      <div className="horarios">
+        {horarios.map((h) => (
+          <button key={h} aria-pressed={h === hora} className={h === hora ? 'selecionado' : ''} onClick={() => aoMudar({ hora: h })}>{h}</button>
+        ))}
+      </div>
+    </>
   );
 }
 

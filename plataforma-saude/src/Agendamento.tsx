@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Check, MapPin, X } from 'lucide-react';
-import { Modal } from './Componentes';
+import { ArrowRight, Check, X } from 'lucide-react';
+import { Modal, Passos, SeletorDataHora, SeletorUnidade } from './Componentes';
 import { useApp } from './contexto';
 import {
-  buscar, datasDisponiveis, dia, distancia, horarioPadrao, horariosDisponiveis, medico, mesCurto, semanaCurta, servicos, unidades,
+  buscar, datasDisponiveis, dia, horarioPadrao, horariosDisponiveis, medico, mesCurto, servicos, unidades,
 } from './dados';
 
 const TITULOS = ['Qual atendimento você precisa?', 'Escolha a unidade', 'Escolha profissional e horário'];
@@ -27,22 +27,6 @@ function EtapaServico({ valor, aoMudar }: { valor: string; aoMudar: (id: string)
   );
 }
 
-function EtapaUnidade({ valor, aoMudar }: { valor: string; aoMudar: (id: string) => void }) {
-  return (
-    <div className="pilha">
-      {unidades.map((unidade) => (
-        <button key={unidade.id} aria-pressed={unidade.id === valor} className={`opcao radio ${unidade.id === valor ? 'selecionado' : ''}`} onClick={() => aoMudar(unidade.id)}>
-          <span className="opcao-bolinha" />
-          <span>
-            <strong>{unidade.nome}</strong>
-            <small><MapPin /> {distancia(unidade.distanciaKm)} • Próximos horários hoje</small>
-          </span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
 function EtapaHorario({ data, hora, aoMudar }: { data: string; hora: string; aoMudar: (parte: Partial<Rascunho>) => void }) {
   return (
     <>
@@ -52,21 +36,7 @@ function EtapaHorario({ data, hora, aoMudar }: { data: string; hora: string; aoM
         <span className="selo selo-verde">Mais próxima</span>
       </div>
 
-      <div className="dias">
-        {datasDisponiveis.map((d) => (
-          <button key={d} aria-pressed={d === data} className={d === data ? 'selecionado' : ''} onClick={() => aoMudar({ data: d })}>
-            <small>{semanaCurta(d)}</small>
-            <strong>{dia(d)}</strong>
-          </button>
-        ))}
-      </div>
-
-      <p className="rotulo-campo">Horários disponíveis</p>
-      <div className="horarios">
-        {horariosDisponiveis.map((h) => (
-          <button key={h} aria-pressed={h === hora} className={h === hora ? 'selecionado' : ''} onClick={() => aoMudar({ hora: h })}>{h}</button>
-        ))}
-      </div>
+      <SeletorDataHora datas={datasDisponiveis} horarios={horariosDisponiveis} data={data} hora={hora} aoMudar={aoMudar} />
     </>
   );
 }
@@ -131,17 +101,10 @@ export default function ModalAgendamento() {
             <button className="botao-icone" onClick={fecharAgendamento} aria-label="Fechar"><X /></button>
           </header>
 
-          <ol className="passos">
-            {NOMES_PASSOS.map((nome, i) => (
-              <li key={nome} className={i + 1 < passo ? 'feito' : i + 1 === passo ? 'atual' : ''}>
-                <span className="passo-ponto">{i + 1 < passo ? <Check /> : i + 1}</span>
-                <span className="passo-nome">{nome}</span>
-              </li>
-            ))}
-          </ol>
+          <Passos nomes={NOMES_PASSOS} passo={passo} />
 
           {passo === 1 && <EtapaServico valor={rascunho.servicoId} aoMudar={(servicoId) => mudar({ servicoId })} />}
-          {passo === 2 && <EtapaUnidade valor={rascunho.unidadeId} aoMudar={(unidadeId) => mudar({ unidadeId })} />}
+          {passo === 2 && <SeletorUnidade valor={rascunho.unidadeId} aoMudar={(unidadeId) => mudar({ unidadeId })} />}
           {passo === 3 && <EtapaHorario data={rascunho.data} hora={rascunho.hora} aoMudar={mudar} />}
 
           <footer className="modal-rodape">
