@@ -19,7 +19,7 @@ function Secao({ titulo, subtitulo, link, rota }: { titulo: string; subtitulo: s
 
 export default function Inicio() {
   const navigate = useNavigate();
-  const { consultas, abrirAgendamento } = useApp();
+  const { consultas, abrirAgendamento, abrirAgendamentoExame } = useApp();
 
   return (
     <div className="pagina">
@@ -35,8 +35,8 @@ export default function Inicio() {
       <h3 className="titulo-secao">Acesso rápido</h3>
       <p className="subtitulo-secao">O que você precisa fazer?</p>
       <div className="grade-acoes">
-        {acoesRapidas.map(({ id, titulo, descricao, icone: Icone, tom, rota }) => (
-          <button key={id} className="cartao cartao-acao" onClick={() => (rota ? navigate(rota) : abrirAgendamento())}>
+        {acoesRapidas.map(({ id, titulo, descricao, icone: Icone, tom, rota, modal }) => (
+          <button key={id} className="cartao cartao-acao" onClick={() => (rota ? navigate(rota) : modal === 'exame' ? abrirAgendamentoExame() : abrirAgendamento())}>
             <span className={`caixa-icone grande tom-${tom}`}><Icone /></span>
             <span className="texto-acao"><strong>{titulo}</strong><small>{descricao}</small></span>
             <ArrowRight className="seta" />

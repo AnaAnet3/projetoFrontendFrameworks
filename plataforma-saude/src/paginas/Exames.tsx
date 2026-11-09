@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Activity, CalendarCheck, Check, Download, FlaskConical, ShieldCheck, X } from 'lucide-react';
 import { Abas, Aviso, Modal } from '../Componentes';
-import { hemograma, ultrassom } from '../dados';
+import { ExameAgendado, useApp } from '../contexto';
+import { buscar, catalogoExames, dia, hemograma, mesCurto, ultrassom, unidades } from '../dados';
 
-const ABAS = [
-  { id: 'andamento', nome: 'Em andamento', contador: 2 },
-  { id: 'resultados', nome: 'Resultados disponíveis', contador: 1 },
-  { id: 'historico', nome: 'Histórico' },
-];
+// Hemograma e ultrassom (exemplos fixos) + os exames agendados pela pessoa.
+const EXAMES_FIXOS_EM_ANDAMENTO = 2;
 const TAMANHO_CODIGO = 6;
 const codigoVazio = () => Array<string>(TAMANHO_CODIGO).fill('');
 
@@ -93,6 +91,31 @@ function CartaoHemograma() {
   );
 }
 
+function CartaoAgendado({ exame }: { exame: ExameAgendado }) {
+  const info = buscar(catalogoExames, exame.exameId);
+  const Icone = info.icone;
+
+  return (
+    <article className="cartao exame">
+      <header>
+        <span className={`caixa-icone tom-${info.tom}`}><Icone /></span>
+        <div>
+          <span className="selo selo-azul">Agendado</span>
+          <h3>{info.nome}</h3>
+          <p>{buscar(unidades, exame.unidadeId).nome}</p>
+        </div>
+      </header>
+      <div className="resumo resumo-exame">
+        <div className="caixa-data pequeno"><strong>{dia(exame.data)}</strong><span>{mesCurto(exame.data)}</span></div>
+        <div>
+          <strong>{exame.hora}</strong>
+          <p>Preparo: {info.preparo}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function CartaoUltrassom({ abrirLaudo }: { abrirLaudo: () => void }) {
   return (
     <article className="cartao exame">
@@ -117,11 +140,17 @@ function CartaoUltrassom({ abrirLaudo }: { abrirLaudo: () => void }) {
 }
 
 export default function Exames() {
+  const { exames, abrirAgendamentoExame } = useApp();
   const [aba, setAba] = useState('andamento');
   const [codigoAberto, setCodigoAberto] = useState(false);
   const [avisoVisivel, setAvisoVisivel] = useState(false);
 
   const abrirLaudo = () => setCodigoAberto(true);
+  const abas = [
+    { id: 'andamento', nome: 'Em andamento', contador: EXAMES_FIXOS_EM_ANDAMENTO + exames.length },
+    { id: 'resultados', nome: 'Resultados disponíveis', contador: 1 },
+    { id: 'historico', nome: 'Histórico' },
+  ];
 
   return (
     <div className="pagina">
@@ -131,7 +160,7 @@ export default function Exames() {
           <h2>Exames e laudos</h2>
           <p className="suave">Acompanhe cada etapa dos seus exames com segurança e transparência.</p>
         </div>
-        <button className="botao botao-primario"><CalendarCheck /> Agendar exame</button>
+        <button className="botao botao-primario" onClick={abrirAgendamentoExame}><CalendarCheck /> Agendar exame</button>
       </div>
 
       <div className="aviso-seguranca">
@@ -142,9 +171,20 @@ export default function Exames() {
         </div>
       </div>
 
-      <Abas abas={ABAS} valor={aba} aoMudar={setAba} />
+      <Abas abas={abas} valor={aba} aoMudar={setAba} />
 
-      {aba === 'andamento' && <div className="grade-exames"><CartaoHemograma /><CartaoUltrassom abrirLaudo={abrirLaudo} /></div>}
+      {aba === 'andamento' && (
+        <>
+          <div className="grade-exames"><CartaoHemograma /><CartaoUltrassom abrirLaudo={abrirLaudo} /></div>
+          {exames.length > 0 && (
+            <>
+              <h3 className="titulo-secao espaco-topo">Exames agendados</h3>
+              <p className="subtitulo-secao">Confira data, local e preparo antes de comparecer</p>
+              <div className="grade-agendados">{exames.map((exame) => <CartaoAgendado key={exame.id} exame={exame} />)}</div>
+            </>
+          )}
+        </>
+      )}
       {aba === 'resultados' && <div className="grade-exames"><CartaoUltrassom abrirLaudo={abrirLaudo} /></div>}
       {aba === 'historico' && <div className="vazio">Nenhum exame no histórico.</div>}
 

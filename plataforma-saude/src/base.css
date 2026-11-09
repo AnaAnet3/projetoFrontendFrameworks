@@ -201,6 +201,11 @@ button.cartao {
   color: #b8741a;
 }
 
+.selo-azul {
+  background: #e4ecf9;
+  color: #3b5fa6;
+}
+
 .botao {
   display: inline-flex;
   align-items: center;
@@ -222,6 +227,11 @@ button.cartao {
 .botao-primario:disabled {
   opacity: .45;
   box-shadow: none;
+  cursor: not-allowed;
+}
+
+.botao-claro:disabled {
+  opacity: .45;
   cursor: not-allowed;
 }
 

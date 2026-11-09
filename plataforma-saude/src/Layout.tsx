@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
 import { Bell, Building2, CalendarCheck, ChevronRight, CircleHelp, FlaskConical, Home, Menu, Plus, ShieldCheck } from 'lucide-react';
+import { useApp } from './contexto';
 import { usuario } from './dados';
 
 const rotas = [
@@ -47,6 +48,8 @@ function BarraLateral() {
 }
 
 function Topo({ titulo, abrirMenu }: { titulo: string; abrirMenu: () => void }) {
+  const { naoLidas, abrirNotificacoes } = useApp();
+
   return (
     <header className="topo">
       <button className="botao-icone topo-menu" onClick={abrirMenu} aria-label="Abrir menu"><Menu /></button>
@@ -54,9 +57,14 @@ function Topo({ titulo, abrirMenu }: { titulo: string; abrirMenu: () => void }) 
         <span className="sobretitulo">Agenda Saúde</span>
         <h1>{titulo}</h1>
       </div>
-      <button className="botao-icone" aria-label="Notificações">
+      <button
+        className="botao-icone"
+        aria-label={naoLidas > 0 ? `Notificações, ${naoLidas} não lidas` : 'Notificações'}
+        aria-haspopup="dialog"
+        onClick={abrirNotificacoes}
+      >
         <Bell />
-        <span className="ponto" />
+        {naoLidas > 0 && <span className="ponto" />}
       </button>
       <button className="usuario">
         <span className="avatar">{usuario.iniciais}</span>

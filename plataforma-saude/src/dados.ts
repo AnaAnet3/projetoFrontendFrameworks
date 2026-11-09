@@ -1,6 +1,7 @@
+import type { LucideIcon } from 'lucide-react';
 import {
   Stethoscope, Heart, Smile, Baby, Syringe, Activity, Brain, Apple, Dumbbell, Bandage, Sparkles,
-  CalendarCheck, FlaskConical, Download,
+  CalendarCheck, FlaskConical, Download, Droplet, HeartPulse, Microscope, Waves, ScanLine, Bone,
 } from 'lucide-react';
 
 export const usuario = { nome: 'Mariana Oliveira', primeiroNome: 'Mariana', iniciais: 'MO', finalCartao: '4821' };
@@ -37,11 +38,13 @@ export const horarioPadrao = { data: '2024-06-18', hora: '09:30' };
 export const servicosPopulares = ['clinica', 'enfermagem', 'odonto', 'vacinacao', 'psicologia', 'nutricao']
   .map((id) => buscar(servicos, id));
 
-// Sem rota, a ação abre o agendamento.
-export const acoesRapidas = [
-  { id: 'consulta', titulo: 'Agendar consulta', descricao: 'Escolha especialidade, unidade e horário', icone: CalendarCheck, tom: 'turquesa', rota: null },
-  { id: 'exame', titulo: 'Agendar exame', descricao: 'Laboratoriais e de imagem', icone: FlaskConical, tom: 'azul', rota: '/exames' },
-  { id: 'laudos', titulo: 'Ver meus laudos', descricao: 'Acompanhe resultados e baixe documentos', icone: Download, tom: 'roxo', rota: '/exames' },
+// Com rota, a ação navega. Sem rota, abre o modal indicado em `modal`.
+export const acoesRapidas: {
+  id: string; titulo: string; descricao: string; icone: LucideIcon; tom: string; rota: string | null; modal: 'consulta' | 'exame' | null;
+}[] = [
+  { id: 'consulta', titulo: 'Agendar consulta', descricao: 'Escolha especialidade, unidade e horário', icone: CalendarCheck, tom: 'turquesa', rota: null, modal: 'consulta' },
+  { id: 'exame', titulo: 'Agendar exame', descricao: 'Laboratoriais e de imagem', icone: FlaskConical, tom: 'azul', rota: null, modal: 'exame' },
+  { id: 'laudos', titulo: 'Ver meus laudos', descricao: 'Acompanhe resultados e baixe documentos', icone: Download, tom: 'roxo', rota: '/exames', modal: null },
 ];
 
 export const examesRecentes = [
@@ -68,6 +71,40 @@ export const ultrassom = {
   disponivelDesde: '30 mai',
   assinadoPor: 'Dra. Camila Porto',
 };
+
+// ---------- Agendamento de exames ----------
+
+export const categoriasExame = [
+  { id: 'laboratorial', nome: 'Laboratoriais' },
+  { id: 'imagem', nome: 'Imagem' },
+];
+
+export const catalogoExames: { id: string; nome: string; categoria: string; icone: LucideIcon; tom: string; preparo: string }[] = [
+  { id: 'hemograma', nome: 'Hemograma completo', categoria: 'laboratorial', icone: Droplet, tom: 'azul', preparo: 'Jejum de 4 horas.' },
+  { id: 'glicemia', nome: 'Glicemia em jejum', categoria: 'laboratorial', icone: FlaskConical, tom: 'turquesa', preparo: 'Jejum de 8 horas.' },
+  { id: 'colesterol', nome: 'Colesterol e triglicerídeos', categoria: 'laboratorial', icone: HeartPulse, tom: 'rosa', preparo: 'Jejum de 12 horas.' },
+  { id: 'urina', nome: 'Urina tipo 1', categoria: 'laboratorial', icone: Microscope, tom: 'verde', preparo: 'Primeira urina da manhã, jato médio.' },
+  { id: 'ultrassom-abdominal', nome: 'Ultrassom abdominal', categoria: 'imagem', icone: Waves, tom: 'roxo', preparo: 'Jejum de 6 horas.' },
+  { id: 'raio-x-torax', nome: 'Raio-X de tórax', categoria: 'imagem', icone: ScanLine, tom: 'laranja', preparo: 'Sem preparo especial.' },
+  { id: 'densitometria', nome: 'Densitometria óssea', categoria: 'imagem', icone: Bone, tom: 'azul', preparo: 'Sem preparo especial. Evite suplementos de cálcio no dia.' },
+];
+
+export const datasExame = ['2024-06-13', '2024-06-14', '2024-06-17', '2024-06-18'];
+export const horariosExame = ['07:00', '07:30', '08:00', '08:30', '09:00', '10:00'];
+export const exameHorarioPadrao = { data: '2024-06-13', hora: '07:30' };
+
+// ---------- Notificações ----------
+
+export interface Notificacao {
+  id: number; titulo: string; texto: string; tempo: string; lida: boolean; rota: string | null; icone: LucideIcon; tom: string;
+}
+
+export const notificacoesIniciais: Notificacao[] = [
+  { id: 1, titulo: 'Consulta confirmada', texto: 'Clínica médica com Dra. Ana Carolina Martins, dia 18 de junho às 09:30.', tempo: 'Há 2 horas', lida: false, rota: '/consultas', icone: CalendarCheck, tom: 'turquesa' },
+  { id: 2, titulo: 'Hemograma em análise técnica', texto: 'Seu exame está sendo analisado. Previsão de resultado: hoje até 18h.', tempo: 'Há 5 horas', lida: false, rota: '/exames', icone: FlaskConical, tom: 'azul' },
+  { id: 3, titulo: 'Laudo disponível', texto: 'O laudo do Ultrassom abdominal já pode ser acessado, com confirmação de identidade.', tempo: '30 mai', lida: true, rota: '/exames', icone: Activity, tom: 'roxo' },
+  { id: 4, titulo: 'Campanha de vacinação', texto: 'Vacinação contra a gripe disponível na UBS Jardim das Flores até 28 de junho.', tempo: '08 jun', lida: true, rota: '/unidades', icone: Syringe, tom: 'laranja' },
+];
 
 export function buscar<T extends { id: string }>(lista: T[], id: string) {
   return lista.find((item) => item.id === id)!;
