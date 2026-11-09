@@ -25,9 +25,6 @@ src/
   paginas.css       estilos das páginas
 ```
 
-## Histórico de alterações
-
-Todas as mudanças ficam registradas em [`../ALTERACOES.md`](../ALTERACOES.md). Registre a sua lá antes de enviar.
 
 ## Ainda é simulado
 
