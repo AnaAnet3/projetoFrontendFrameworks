@@ -11,7 +11,8 @@ interface Valor {
   consultas: Consulta[];
   agendamentoAberto: boolean;
   servicoInicial: string | null;
-  abrirAgendamento: (servicoId?: string) => void;
+  unidadeInicial: string | null;
+  abrirAgendamento: (servicoId?: string, unidadeId?: string) => void;
   fecharAgendamento: () => void;
   adicionarConsulta: (consulta: Omit<Consulta, 'id'>) => void;
 
@@ -39,6 +40,7 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
   ]);
   const [agendamentoAberto, setAgendamentoAberto] = useState(false);
   const [servicoInicial, setServicoInicial] = useState<string | null>(null);
+  const [unidadeInicial, setUnidadeInicial] = useState<string | null>(null);
 
   const [exames, setExames] = useState<ExameAgendado[]>([]);
   const [agendamentoExameAberto, setAgendamentoExameAberto] = useState(false);
@@ -56,7 +58,12 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
         consultas,
         agendamentoAberto,
         servicoInicial,
-        abrirAgendamento: (servicoId) => { setServicoInicial(servicoId ?? null); setAgendamentoAberto(true); },
+        unidadeInicial,
+        abrirAgendamento: (servicoId, unidadeId) => {
+          setServicoInicial(servicoId ?? null);
+          setUnidadeInicial(unidadeId ?? null);
+          setAgendamentoAberto(true);
+        },
         fecharAgendamento: () => setAgendamentoAberto(false),
         adicionarConsulta: (consulta) => {
           setConsultas((atuais) => [{ ...consulta, id: Date.now() }, ...atuais]);

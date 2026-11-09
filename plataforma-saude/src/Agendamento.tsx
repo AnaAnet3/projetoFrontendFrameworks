@@ -62,7 +62,7 @@ function Sucesso({ rascunho, concluir }: { rascunho: Rascunho; concluir: () => v
 }
 
 export default function ModalAgendamento() {
-  const { agendamentoAberto, fecharAgendamento, servicoInicial, adicionarConsulta } = useApp();
+  const { agendamentoAberto, fecharAgendamento, servicoInicial, unidadeInicial, adicionarConsulta } = useApp();
   const navigate = useNavigate();
   const [passo, setPasso] = useState(1);
   const [confirmado, setConfirmado] = useState(false);
@@ -70,10 +70,14 @@ export default function ModalAgendamento() {
 
   useEffect(() => {
     if (!agendamentoAberto) return;
-    setRascunho({ ...rascunhoInicial, servicoId: servicoInicial ?? rascunhoInicial.servicoId });
+    setRascunho({
+      ...rascunhoInicial,
+      servicoId: servicoInicial ?? rascunhoInicial.servicoId,
+      unidadeId: unidadeInicial ?? rascunhoInicial.unidadeId,
+    });
     setPasso(servicoInicial ? 2 : 1);
     setConfirmado(false);
-  }, [agendamentoAberto, servicoInicial]);
+  }, [agendamentoAberto, servicoInicial, unidadeInicial]);
 
   const mudar = (parte: Partial<Rascunho>) => setRascunho((atual) => ({ ...atual, ...parte }));
 

@@ -23,10 +23,20 @@ export const servicos = [
   { id: 'curativos', nome: 'Curativos', icone: Bandage, tom: 'rosa' },
 ];
 
+// `servicos` lista os ids de serviço atendidos; `telefone` é um número fictício.
 export const unidades = [
-  { id: 'jardim', nome: 'UBS Jardim das Flores', distanciaKm: 1.2, endereco: 'Rua das Acácias, 240', horario: '07:00 às 17:00' },
-  { id: 'parque', nome: 'UBS Parque Central', distanciaKm: 3.4, endereco: 'Rua Pedro Álvares, 91', horario: '07:00 às 17:00' },
-  { id: 'centro', nome: 'Centro de Especialidades', distanciaKm: 4.4, endereco: 'Rua Central, 1250', horario: '07:00 às 17:00' },
+  {
+    id: 'jardim', nome: 'UBS Jardim das Flores', distanciaKm: 1.2, endereco: 'Rua das Acácias, 240', horario: '07:00 às 17:00',
+    telefone: '(00) 0000-0001', servicos: ['clinica', 'enfermagem', 'odonto', 'prenatal', 'puericultura', 'hiperdia', 'vacinacao', 'curativos'],
+  },
+  {
+    id: 'parque', nome: 'UBS Parque Central', distanciaKm: 3.4, endereco: 'Rua Pedro Álvares, 91', horario: '07:00 às 17:00',
+    telefone: '(00) 0000-0002', servicos: ['clinica', 'enfermagem', 'vacinacao', 'curativos', 'psicologia', 'nutricao'],
+  },
+  {
+    id: 'centro', nome: 'Centro de Especialidades', distanciaKm: 4.4, endereco: 'Rua Central, 1250', horario: '07:00 às 17:00',
+    telefone: '(00) 0000-0003', servicos: ['clinica', 'odonto', 'hiperdia', 'psicologia', 'nutricao', 'fisio'],
+  },
 ];
 
 export const medico = { nome: 'Dra. Ana Carolina Martins', crm: 'CRM 58291', iniciais: 'AC' };
