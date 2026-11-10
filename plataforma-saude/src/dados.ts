@@ -4,17 +4,17 @@ import {
   CalendarCheck, FlaskConical, Download, Droplet, HeartPulse, Microscope, Waves, ScanLine, Bone,
 } from 'lucide-react';
 
-export const usuario = { nome: 'Mariana Oliveira', primeiroNome: 'Mariana', iniciais: 'MO', finalCartao: '4821' };
+export const usuario = { nome: 'Rafael Oliveira', primeiroNome: 'Rafael', iniciais: 'RO', finalCartao: '4821' };
 
 // Data fixa para combinar com os dados de exemplo. Com backend, usar new Date().
-export const hoje = '2024-06-11';
+export const hoje = '2026-11-11';
 
 export const servicos = [
   { id: 'clinica', nome: 'Clínica médica', icone: Stethoscope, tom: 'turquesa' },
   { id: 'enfermagem', nome: 'Enfermagem', icone: Heart, tom: 'azul' },
   { id: 'odonto', nome: 'Odontologia', icone: Sparkles, tom: 'roxo' },
   { id: 'prenatal', nome: 'Pré-natal', icone: Baby, tom: 'laranja' },
-  { id: 'puericultura', nome: 'Puericultura', icone: Smile, tom: 'rosa' },
+  { id: 'puericultura', nome: 'Pediatria', icone: Smile, tom: 'rosa' },
   { id: 'hiperdia', nome: 'Hiperdia', icone: Activity, tom: 'verde' },
   { id: 'psicologia', nome: 'Psicologia', icone: Brain, tom: 'turquesa' },
   { id: 'nutricao', nome: 'Nutrição', icone: Apple, tom: 'azul' },
@@ -26,24 +26,24 @@ export const servicos = [
 // `servicos` lista os ids de serviço atendidos; `telefone` é um número fictício.
 export const unidades = [
   {
-    id: 'jardim', nome: 'UBS Jardim das Flores', distanciaKm: 1.2, endereco: 'Rua das Acácias, 240', horario: '07:00 às 17:00',
-    telefone: '(00) 0000-0001', servicos: ['clinica', 'enfermagem', 'odonto', 'prenatal', 'puericultura', 'hiperdia', 'vacinacao', 'curativos'],
+    id: 'centro', nome: 'Policlínica Lessa de Andrade', distanciaKm: 1.0, endereco: 'Estrada dos Remédios, 2416 - Madalena', horario: '07:30 às 17:00',
+    telefone: '(81) 3355-7805', servicos: ['clinica', 'odonto', 'hiperdia', 'psicologia', 'nutricao', 'fisio'],
+  }, 
+  {
+    id: 'parque', nome: 'USF Santo Amaro III', distanciaKm: 2.4, endereco: 'Av. Norte Miguel Arraes de Alencar, 1271 - Santo Amaro', horario: '07:00 às 17:00',
+    telefone: '(81) 3355-3425', servicos: ['clinica', 'enfermagem', 'vacinacao', 'curativos', 'psicologia', 'nutricao'],
   },
   {
-    id: 'parque', nome: 'UBS Parque Central', distanciaKm: 3.4, endereco: 'Rua Pedro Álvares, 91', horario: '07:00 às 17:00',
-    telefone: '(00) 0000-0002', servicos: ['clinica', 'enfermagem', 'vacinacao', 'curativos', 'psicologia', 'nutricao'],
-  },
-  {
-    id: 'centro', nome: 'Centro de Especialidades', distanciaKm: 4.4, endereco: 'Rua Central, 1250', horario: '07:00 às 17:00',
-    telefone: '(00) 0000-0003', servicos: ['clinica', 'odonto', 'hiperdia', 'psicologia', 'nutricao', 'fisio'],
+    id: 'jardim', nome: 'USF Coelhos', distanciaKm: 3.2, endereco: 'Rua Gen. Joaquim Inácio, 200 - Ilha do Leite', horario: '07:00 às 19:00',
+    telefone: '(81) 3355-4653', servicos: ['clinica', 'enfermagem', 'odonto', 'prenatal', 'puericultura', 'hiperdia', 'vacinacao', 'curativos'],
   },
 ];
 
 export const medico = { nome: 'Dra. Ana Carolina Martins', crm: 'CRM 58291', iniciais: 'AC' };
 
-export const datasDisponiveis = ['2024-06-17', '2024-06-18', '2024-06-19', '2024-06-20'];
+export const datasDisponiveis = ['2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17'];
 export const horariosDisponiveis = ['08:00', '08:30', '09:00', '09:30', '10:30', '14:00'];
-export const horarioPadrao = { data: '2024-06-18', hora: '09:30' };
+export const horarioPadrao = { data: '2026-11-01', hora: '09:30' };
 
 export const servicosPopulares = ['clinica', 'enfermagem', 'odonto', 'vacinacao', 'psicologia', 'nutricao']
   .map((id) => buscar(servicos, id));
@@ -58,8 +58,8 @@ export const acoesRapidas: {
 ];
 
 export const examesRecentes = [
-  { id: 'hemograma', nome: 'Hemograma completo', categoria: 'Laboratorial', solicitadoEm: '06/06', pronto: false, progresso: 72, legenda: 'Processando amostra', icone: FlaskConical, tom: 'azul' },
-  { id: 'ultrassom', nome: 'Ultrassom abdominal', categoria: 'Imagem', solicitadoEm: '28/05', pronto: true, progresso: 100, legenda: 'Laudo disponível', icone: Activity, tom: 'roxo' },
+  { id: 'hemograma', nome: 'Hemograma completo', categoria: 'Laboratorial', solicitadoEm: '07/11', pronto: false, progresso: 72, legenda: 'Processando amostra', icone: FlaskConical, tom: 'azul' },
+  { id: 'ultrassom', nome: 'Ultrassom abdominal', categoria: 'Imagem', solicitadoEm: '23/10', pronto: true, progresso: 100, legenda: 'Laudo disponível', icone: Activity, tom: 'roxo' },
 ];
 
 export const hemograma = {
@@ -67,8 +67,8 @@ export const hemograma = {
   local: 'Laboratório Municipal',
   protocolo: '#LAB-88241',
   etapas: [
-    { titulo: 'Coleta realizada', hora: '06 jun • 08:42', estado: 'feito' },
-    { titulo: 'Amostra recebida', hora: '06 jun • 10:15', estado: 'feito' },
+    { titulo: 'Coleta realizada', hora: '09 nov • 08:42', estado: 'feito' },
+    { titulo: 'Amostra recebida', hora: '09 nov • 10:15', estado: 'feito' },
     { titulo: 'Em análise técnica', hora: 'Previsão: hoje até 18h', estado: 'atual' },
     { titulo: 'Laudo disponível', hora: 'Você será notificada', estado: 'pendente' },
   ],
@@ -78,7 +78,7 @@ export const ultrassom = {
   nome: 'Ultrassom abdominal',
   local: 'Centro de Diagnóstico',
   protocolo: '#IMG-41208',
-  disponivelDesde: '30 mai',
+  disponivelDesde: '25 out',
   assinadoPor: 'Dra. Camila Porto',
 };
 
@@ -99,9 +99,9 @@ export const catalogoExames: { id: string; nome: string; categoria: string; icon
   { id: 'densitometria', nome: 'Densitometria óssea', categoria: 'imagem', icone: Bone, tom: 'azul', preparo: 'Sem preparo especial. Evite suplementos de cálcio no dia.' },
 ];
 
-export const datasExame = ['2024-06-13', '2024-06-14', '2024-06-17', '2024-06-18'];
+export const datasExame = ['2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17'];
 export const horariosExame = ['07:00', '07:30', '08:00', '08:30', '09:00', '10:00'];
-export const exameHorarioPadrao = { data: '2024-06-13', hora: '07:30' };
+export const exameHorarioPadrao = { data: '2026-11-12', hora: '07:30' };
 
 // ---------- Notificações ----------
 
@@ -110,10 +110,10 @@ export interface Notificacao {
 }
 
 export const notificacoesIniciais: Notificacao[] = [
-  { id: 1, titulo: 'Consulta confirmada', texto: 'Clínica médica com Dra. Ana Carolina Martins, dia 18 de junho às 09:30.', tempo: 'Há 2 horas', lida: false, rota: '/consultas', icone: CalendarCheck, tom: 'turquesa' },
+  { id: 1, titulo: 'Consulta confirmada', texto: 'Clínica médica com Dra. Ana Carolina Martins, dia 16 de novembro às 09:30.', tempo: 'Há 2 horas', lida: false, rota: '/consultas', icone: CalendarCheck, tom: 'turquesa' },
   { id: 2, titulo: 'Hemograma em análise técnica', texto: 'Seu exame está sendo analisado. Previsão de resultado: hoje até 18h.', tempo: 'Há 5 horas', lida: false, rota: '/exames', icone: FlaskConical, tom: 'azul' },
-  { id: 3, titulo: 'Laudo disponível', texto: 'O laudo do Ultrassom abdominal já pode ser acessado, com confirmação de identidade.', tempo: '30 mai', lida: true, rota: '/exames', icone: Activity, tom: 'roxo' },
-  { id: 4, titulo: 'Campanha de vacinação', texto: 'Vacinação contra a gripe disponível na UBS Jardim das Flores até 28 de junho.', tempo: '08 jun', lida: true, rota: '/unidades', icone: Syringe, tom: 'laranja' },
+  { id: 3, titulo: 'Laudo disponível', texto: 'O laudo do Ultrassom abdominal já pode ser acessado, com confirmação de identidade.', tempo: '25 out', lida: true, rota: '/exames', icone: Activity, tom: 'roxo' },
+  { id: 4, titulo: 'Campanha de vacinação', texto: 'Vacinação contra a gripe disponível na Policlínica Lessa de Andrade até 18 de novembro.', tempo: '24 out', lida: true, rota: '/unidades', icone: Syringe, tom: 'laranja' },
 ];
 
 export function buscar<T extends { id: string }>(lista: T[], id: string) {

@@ -36,7 +36,7 @@ export const useApp = () => useContext(Contexto);
 
 export function ProvedorApp({ children }: { children: ReactNode }) {
   const [consultas, setConsultas] = useState<Consulta[]>([
-    { id: 1, data: '2024-06-18', hora: '09:30', servicoId: 'clinica', unidadeId: 'jardim' },
+    { id: 1, data: '2026-11-16', hora: '09:30', servicoId: 'clinica', unidadeId: 'jardim' },
   ]);
   const [agendamentoAberto, setAgendamentoAberto] = useState(false);
   const [servicoInicial, setServicoInicial] = useState<string | null>(null);
