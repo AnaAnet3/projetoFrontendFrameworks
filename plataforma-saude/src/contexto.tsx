@@ -22,6 +22,10 @@ interface Valor {
   fecharAgendamentoExame: () => void;
   adicionarExame: (exame: Omit<ExameAgendado, 'id'>) => void;
 
+  perfilAberto: boolean;
+  abrirPerfil: () => void;
+  fecharPerfil: () => void;
+
   notificacoes: Notificacao[];
   naoLidas: number;
   notificacoesAberto: boolean;
@@ -47,6 +51,7 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
 
   const [notificacoes, setNotificacoes] = useState<Notificacao[]>(notificacoesIniciais);
   const [notificacoesAberto, setNotificacoesAberto] = useState(false);
+  const [perfilAberto, setPerfilAberto] = useState(false);
 
   // A notificação mais recente fica no topo. O id usa a hora atual, como nas consultas.
   const novaNotificacao = (dados: Pick<Notificacao, 'titulo' | 'texto' | 'rota' | 'icone' | 'tom'>) =>
@@ -86,6 +91,10 @@ export function ProvedorApp({ children }: { children: ReactNode }) {
             rota: '/exames', icone: FlaskConical, tom: 'azul',
           });
         },
+
+        perfilAberto,
+        abrirPerfil: () => setPerfilAberto(true),
+        fecharPerfil: () => setPerfilAberto(false),
 
         notificacoes,
         naoLidas: notificacoes.filter((n) => !n.lida).length,

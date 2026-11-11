@@ -547,3 +547,193 @@
   margin-bottom: 12px;
   font-size: 12px;
 }
+
+/* ---------- Perfil da usuária ---------- */
+
+.perfil-identidade {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.perfil-identidade h2 {
+  margin-bottom: 4px;
+}
+
+.avatar.grande {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  font-size: 20px;
+}
+
+.perfil-painel {
+  min-height: 300px;
+}
+
+.dados-grade {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 24px;
+}
+
+.dado {
+  padding: 12px 0;
+  border-bottom: 1px solid #e9f0ee;
+  min-width: 0;
+}
+
+.dado.largo {
+  grid-column: 1 / -1;
+}
+
+.dado small {
+  display: block;
+  font-size: 11px;
+  color: var(--cinza);
+  margin-bottom: 2px;
+}
+
+.dado strong {
+  font-size: 13.5px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.dado .dado-extra {
+  font-weight: 400;
+  color: var(--cinza);
+}
+
+.dado-linha {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dado .numero {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+
+.botao-mini {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--turquesa);
+}
+
+.botao-mini svg {
+  width: 15px;
+  height: 15px;
+}
+
+.endereco-cadastrado {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: #f1f6f5;
+}
+
+.endereco-cadastrado svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-top: 2px;
+  color: var(--turquesa);
+}
+
+.endereco-cadastrado small,
+.endereco-cadastrado strong,
+.endereco-cadastrado span {
+  display: block;
+}
+
+.endereco-cadastrado small {
+  font-size: 11px;
+  color: var(--cinza);
+}
+
+.endereco-cadastrado strong {
+  font-size: 14px;
+}
+
+.endereco-cadastrado span {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--cinza);
+}
+
+.proximidade {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.proximidade li {
+  padding: 12px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+}
+
+.proximidade li.mais-proxima {
+  background: #f5fbfa;
+  border-color: #cfe8e2;
+}
+
+.proximidade-topo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.proximidade-topo strong {
+  font-size: 13px;
+}
+
+.proximidade-km {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--turquesa);
+}
+
+.barra-distancia {
+  height: 6px;
+  border-radius: 6px;
+  background: #e3eeeb;
+  overflow: hidden;
+}
+
+.barra-distancia span {
+  display: block;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #14a89c, #0b6f6a);
+}
+
+.nota-perfil {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--cinza);
+}
+
+@media (max-width: 767px) {
+  .dados-grade {
+    grid-template-columns: 1fr;
+  }
+
+  .perfil-painel {
+    min-height: 0;
+  }
+}

@@ -48,7 +48,7 @@ function BarraLateral() {
 }
 
 function Topo({ titulo, abrirMenu }: { titulo: string; abrirMenu: () => void }) {
-  const { naoLidas, abrirNotificacoes } = useApp();
+  const { naoLidas, abrirNotificacoes, abrirPerfil } = useApp();
 
   return (
     <header className="topo">
@@ -66,7 +66,7 @@ function Topo({ titulo, abrirMenu }: { titulo: string; abrirMenu: () => void }) 
         <Bell />
         {naoLidas > 0 && <span className="ponto" />}
       </button>
-      <button className="usuario">
+      <button className="usuario" onClick={abrirPerfil} aria-haspopup="dialog" aria-label={`Abrir perfil de ${usuario.nome}`}>
         <span className="avatar">{usuario.iniciais}</span>
         <span className="usuario-texto">
           <strong>{usuario.nome}</strong>
