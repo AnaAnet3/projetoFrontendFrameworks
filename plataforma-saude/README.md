@@ -18,6 +18,7 @@ src/
   Agendamento.tsx   modal de agendamento de consulta em 3 passos
   AgendamentoExame.tsx  modal de agendamento de exame em 3 passos
   Notificacoes.tsx  modal de notificações (sininho do topo)
+  Perfil.tsx        modal de perfil da usuária (cadastro no canto superior direito)
   paginas/          Inicio, Consultas, Exames, Unidades, Ajuda
   base.css          variáveis, reset e estilos compartilhados
   layout.css        menu, topo, abas e aviso

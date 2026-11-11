@@ -6,6 +6,32 @@ import {
 
 export const usuario = { nome: 'Rafael Oliveira', primeiroNome: 'Rafael', iniciais: 'RO', finalCartao: '4821' };
 
+// Cadastro do usuário (todos os dados são fictícios). O telefone termina em 42, como na verificação de segurança.
+export const perfil = {
+  nomeCompleto: 'Rafael Oliveira Santos',
+  cartaoSus: '700 0012 3456 4821',
+  cpfMascarado: '***.***.***-09',
+  nascimento: '1998-03-14',
+  sexo: 'Masculino',
+  telefone: '(81) 98888-0042',
+  email: 'rafael.oliveira@gmail.com.br',
+  contatoEmergencia: { nome: 'Carlos Oliveira', parentesco: 'Pai', telefone: '(81) 98888-0017' },
+  endereco: { logradouro: 'Rua Guilherme Pinto, 235', bairro: 'Graças', cidade: 'Recife - PE', cep: '52010-210' },
+  tipoSanguineo: 'O+',
+  alergias: 'Nenhuma registrada',
+  equipe: 'Equipe de Saúde da Família 03',
+  cadastroAtualizadoEm: '2026-10-02',
+};
+
+// Idade completa em anos na data informada (padrão: "hoje" do protótipo).
+export function calcularIdade(nascimento: string, ate: string = hoje) {
+  const [an, mn, dn] = nascimento.split('-').map(Number);
+  const [a, m, d] = ate.split('-').map(Number);
+  return a - an - (m < mn || (m === mn && d < dn) ? 1 : 0);
+}
+
+export const dataCurta = (iso: string) => iso.split('-').reverse().join('/');
+
 // Data fixa para combinar com os dados de exemplo. Com backend, usar new Date().
 export const hoje = '2026-11-11';
 
@@ -41,9 +67,9 @@ export const unidades = [
 
 export const medico = { nome: 'Dra. Ana Carolina Martins', crm: 'CRM 58291', iniciais: 'AC' };
 
-export const datasDisponiveis = ['2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17'];
+export const datasDisponiveis = ['2026-11-11', '2026-11-12', '2026-11-13', '2026-11-16'];
 export const horariosDisponiveis = ['08:00', '08:30', '09:00', '09:30', '10:30', '14:00'];
-export const horarioPadrao = { data: '2026-11-01', hora: '09:30' };
+export const horarioPadrao = { data: '2026-11-11', hora: '09:30' };
 
 export const servicosPopulares = ['clinica', 'enfermagem', 'odonto', 'vacinacao', 'psicologia', 'nutricao']
   .map((id) => buscar(servicos, id));
@@ -70,7 +96,7 @@ export const hemograma = {
     { titulo: 'Coleta realizada', hora: '09 nov • 08:42', estado: 'feito' },
     { titulo: 'Amostra recebida', hora: '09 nov • 10:15', estado: 'feito' },
     { titulo: 'Em análise técnica', hora: 'Previsão: hoje até 18h', estado: 'atual' },
-    { titulo: 'Laudo disponível', hora: 'Você será notificada', estado: 'pendente' },
+    { titulo: 'Laudo disponível', hora: 'Você receberá uma notificação', estado: 'pendente' },
   ],
 };
 
@@ -99,9 +125,9 @@ export const catalogoExames: { id: string; nome: string; categoria: string; icon
   { id: 'densitometria', nome: 'Densitometria óssea', categoria: 'imagem', icone: Bone, tom: 'azul', preparo: 'Sem preparo especial. Evite suplementos de cálcio no dia.' },
 ];
 
-export const datasExame = ['2026-11-12', '2026-11-13', '2026-11-16', '2026-11-17'];
+export const datasExame = ['2026-11-11', '2026-11-12', '2026-11-13', '2026-11-16'];
 export const horariosExame = ['07:00', '07:30', '08:00', '08:30', '09:00', '10:00'];
-export const exameHorarioPadrao = { data: '2026-11-12', hora: '07:30' };
+export const exameHorarioPadrao = { data: '2026-11-11', hora: '07:30' };
 
 // ---------- Notificações ----------
 
